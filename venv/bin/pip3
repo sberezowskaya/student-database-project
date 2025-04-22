@@ -1,4 +1,4 @@
-#!/Users/sofia/Desktop/project/venv/bin/python
+#!/Users/sofia/Desktop/project/venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys
