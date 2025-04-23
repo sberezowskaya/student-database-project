@@ -76,3 +76,19 @@ def delete_student_endpoint(student_id: int, db: Session = Depends(get_db)):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app:app", host="127.0.0.1", port=8000, reload=True)
+    from fastapi import Depends, HTTPException, status
+from auth import get_current_user
+
+# Пример защищенного эндпойнта
+@app.get("/students/", response_model=list[dict])
+def read_students(current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+    students = db.query(Student).all()
+    return [{"id": s.id, "name": s.name, "faculty": s.faculty, "course": s.course, "grade": s.grade} for s in students]
+
+from fastapi import FastAPI
+from auth_router import router as auth_router
+
+app = FastAPI()
+
+# Подключение маршрутизатора /auth
+app.include_router(auth_router)
